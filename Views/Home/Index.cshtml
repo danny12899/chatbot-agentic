@@ -1,0 +1,50 @@
+﻿<div class="chat-container">
+    <div id="chatBox" class="chat-box">
+        <!-- Messages will be appended here -->
+    </div>
+    <form id="chatForm" class="input-area">
+        <input type="text" id="userInput" placeholder="Type a message..." autocomplete="off" required />
+        <input type="file" id="fileInput" />
+        <label for="fileInput">Upload file</label>
+        <button type="submit">Send</button>
+    </form>
+</div>
+
+<script>
+    const chatBox = document.getElementById('chatBox');
+    const chatForm = document.getElementById('chatForm');
+    const userInput = document.getElementById('userInput');
+
+    chatForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const message = userInput.value.trim();
+        const fileInput = document.getElementById("fileInput").files[0];
+        const formData = new FormData();
+
+        if (!message) return;
+
+        appendMessage('user', message);
+        userInput.value = '';
+        formData.append("prompt", message);
+
+        if (fileInput) {
+            formData.append("file", fileInput);
+        }
+
+        const response = await fetch('/api/azure/AskQuestion', {
+            method: 'POST',
+            body: formData
+        });
+        const data = await response.text();
+        appendMessage('bot', data || "No response.");
+    });
+
+    function appendMessage(sender, text) {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `message ${sender}`;
+        msgDiv.innerHTML = text;
+        chatBox.appendChild(msgDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+</script>

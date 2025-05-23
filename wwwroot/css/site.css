@@ -1,0 +1,83 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+}
+
+.chat-container {
+    max-width: 600px;
+    margin: 30px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+}
+
+.chat-box {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    border-bottom: 1px solid #ccc;
+}
+
+.message {
+    margin-bottom: 15px;
+}
+
+    .message.user {
+        text-align: right;
+        color: #2c3e50;
+    }
+
+    .message.bot {
+        text-align: left;
+        color: #16a085;
+    }
+
+.input-area {
+    display: flex;
+    padding: 15px;
+}
+
+    .input-area input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .input-area button {
+        margin-left: 10px;
+        padding: 10px 20px;
+        border: none;
+        background: #3498db;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .input-area button:hover {
+            background: #2980b9;
+        }
+
+#fileInput {
+    display: none;
+}
+
+label[for="fileInput"] {
+    margin-left: 10px;
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+    label[for="fileInput"]:hover {
+        background-color: #218838;
+    }
