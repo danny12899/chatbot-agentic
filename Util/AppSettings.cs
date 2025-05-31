@@ -7,5 +7,6 @@
         public string ChatCompletionModelId { get; set; } = string.Empty;
         public string EmbeddingModelId { get; set; } = string.Empty;
         public string ConnectionString { get; set; } = string.Empty;
+        public string AzureAgentProjectUrl { get; set; } = string.Empty;
     }
 }

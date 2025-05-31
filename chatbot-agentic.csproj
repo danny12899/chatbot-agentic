@@ -8,6 +8,8 @@
   </PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Azure.AI.Agents.Persistent" Version="1.1.0-beta.1" />
+		<PackageReference Include="Azure.AI.Projects" Version="1.0.0-beta.9" />
 		<PackageReference Include="Markdig" Version="0.41.1" />
 		<PackageReference Include="Microsoft.KernelMemory" Version="0.98.250508.3" />
 		<PackageReference Include="Microsoft.KernelMemory.MemoryDb.SQLServer" Version="0.98.250508.3" />
