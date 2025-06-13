@@ -10,12 +10,14 @@ namespace chatbot_agentic.Agents
             try
             {
                 await next(context);
-
                 if (context.Result.ValueType == typeof(ChatMessageContent[]))
                 {
                     Console.WriteLine($"{context.Function.Name} : {JsonSerializer.Serialize(context.Result.GetValue<ChatMessageContent[]>())}");
                 }
-
+                if (context.Result.ValueType == typeof(string))
+                {
+                    Console.WriteLine($"{context.Function.Name} : {context.Result}");
+                }
             }
             catch (Exception ex)
             {
