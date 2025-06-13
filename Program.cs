@@ -1,5 +1,7 @@
+using chatbot_agentic.Agents;
 using chatbot_agentic.Services;
 using chatbot_agentic.Util;
+using Microsoft.SemanticKernel;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 builder.Services.AddScoped<IAzureService, AzureService>();
+builder.Services.AddScoped<IFunctionInvocationFilter, FunctionInvocationFilter>();
 builder.Services.AddScoped<IKernelService, KernelService>();
 builder.Services.AddScoped<IKernelMemoryService, KernelMemoryService>();
 

@@ -1,4 +1,5 @@
-﻿using chatbot_agentic.Util;
+﻿using chatbot_agentic.Agents;
+using chatbot_agentic.Util;
 using Microsoft.Extensions.Options;
 using Microsoft.SemanticKernel;
 
@@ -20,6 +21,8 @@ namespace chatbot_agentic.Services
 
             // Add enterprise components
             builder.Services.AddLogging(services => services.AddConsole().SetMinimumLevel(LogLevel.Trace));
+
+            builder.Services.AddSingleton<IFunctionInvocationFilter, FunctionInvocationFilter>();
 
             // Build the kernel
             return builder.Build();

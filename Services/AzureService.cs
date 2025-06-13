@@ -4,26 +4,30 @@ using chatbot_agentic.Util;
 using Microsoft.Extensions.Options;
 using Microsoft.SemanticKernel.Agents;
 using Markdig;
-
 using Azure;
 using Azure.Identity;
 using Azure.AI.Projects;
 using Azure.AI.Agents.Persistent;
 using System.Text;
+using chatbot_agentic.Agents;
+using Microsoft.SemanticKernel.Connectors.OpenAI;
 
 namespace chatbot_agentic.Services
 {
     public class AzureService : IAzureService
     {
         private readonly AppSettings _appSettings;
+        private readonly IFunctionInvocationFilter _functionInvocationFilter;
         private readonly IKernelService _kernelService;
         private readonly IKernelMemoryService _kernelMemoryService;
 
         public AzureService(IOptions<AppSettings> appSettings,
+            IFunctionInvocationFilter functionInvocationFilter,
             IKernelService kernelService,
             IKernelMemoryService kernelMemoryService)
         {
             _appSettings = appSettings.Value;
+            _functionInvocationFilter = functionInvocationFilter;
             _kernelService = kernelService;
             _kernelMemoryService = kernelMemoryService;
         }
@@ -82,12 +86,23 @@ namespace chatbot_agentic.Services
         public async Task<string> AskQuestion(string prompt, string documentId)
         {
             var kernel = _kernelService.GetKernel();
+            kernel.FunctionInvocationFilters.Add(new FunctionInvocationFilter());
+
+            var functionFromPrompt = kernel.CreateFunctionFromPrompt("When asked what time or date is it reply with 'I do not have that information'");
+
+            kernel.ImportPluginFromFunctions("my_plugin", [functionFromPrompt]);
+
 
             var agent = new ChatCompletionAgent
             {
                 Name = "ChatAgent",
                 Instructions = "Answer questions",
-                Kernel = kernel
+                Kernel = kernel,
+                Arguments = new KernelArguments(
+                new OpenAIPromptExecutionSettings()
+                {
+                    FunctionChoiceBehavior = FunctionChoiceBehavior.Required()
+                })
             };
 
             var response = string.Empty;
