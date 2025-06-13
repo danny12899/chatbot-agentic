@@ -11,6 +11,7 @@ using Azure.AI.Agents.Persistent;
 using System.Text;
 using chatbot_agentic.Agents;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
+using chatbot_agentic.Plugins;
 
 namespace chatbot_agentic.Services
 {
@@ -88,10 +89,7 @@ namespace chatbot_agentic.Services
             var kernel = _kernelService.GetKernel();
             kernel.FunctionInvocationFilters.Add(new FunctionInvocationFilter());
 
-            var functionFromPrompt = kernel.CreateFunctionFromPrompt("When asked what time or date is it reply with 'I do not have that information'");
-
-            kernel.ImportPluginFromFunctions("my_plugin", [functionFromPrompt]);
-
+            kernel.ImportPluginFromType<DatePlugin>();
 
             var agent = new ChatCompletionAgent
             {
@@ -101,7 +99,7 @@ namespace chatbot_agentic.Services
                 Arguments = new KernelArguments(
                 new OpenAIPromptExecutionSettings()
                 {
-                    FunctionChoiceBehavior = FunctionChoiceBehavior.Required()
+                    FunctionChoiceBehavior = FunctionChoiceBehavior.Auto()
                 })
             };
 
