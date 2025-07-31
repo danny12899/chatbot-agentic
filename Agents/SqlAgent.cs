@@ -28,7 +28,8 @@ namespace chatbot_agentic.Agents
             {
                 Name = "SqlAgent",
                 Description = "Agent to invoke to give a sql query to answer the user's question about the database",
-                Kernel = kernel
+                Kernel = kernel,
+                Instructions = _instructions.ToString()
             };
         }
 
